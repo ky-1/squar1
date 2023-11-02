@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>{% block title %}{% endblock %} - cheeseRox Next</title>
+	{% block head %}{% endblock %}
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+	<link rel="manifest" href="/assets/icons/site.webmanifest">
+	<link rel="shortcut icon" href="/assets/icons/favicon.ico">
+	<meta name="apple-mobile-web-app-title" content="cheeseRox">
+	<meta name="application-name" content="cheeseRox">
+	<meta name="msapplication-TileColor" content="#2b5797">
+	<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
+	<meta name="theme-color" content="#4723d9">
+	<link rel="stylesheet" href="/assets/css/style.css" type="text/css">
+	{% if theme == 'dark' %}
+		<link id="darkthm" rel="stylesheet" href="/assets/css/darkmode.css" type="text/css">
+	{% endif %}
+	{% if theme == 'bluey' %}
+		<link id="bluey" rel="stylesheet" href="/assets/css/bluey.css" type="text/css">
+	{% endif %}
+	<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	<script src="assets/common.js"></script>
+	<script>
+		subscribe_string = '{{ __("Follow") }}';
+		unsubscribe_string = '{{ __("Unfollow") }}';
+	</script>
+	<style>
+	{% block customcss %}{% endblock %}
+	</style>
+</head>
+<body>
+	{% if theme == 'bluey' %}
+	<div class="container" style="display: flex;align-items: center;flex-direction: column;">
+		<nav class="primary-menu" role="navigation">
+		<a class="logo" href="/"></a>
+		<div class="items">
+						<li>
+							<a href="/browse.php">{{ __("Videos") }}</a>
+						</li>
+						<li>
+							<a href="/music.php">{{ __("Music") }}</a>
+						</li>
+						<li>
+							<a href="/forum/">{{ __("Forums") }}</a>
+						</li>
+						<li>
+							<a href="/channels.php">{{ __("Users") }}</a>
+						</li>
+						{% if log %}
+						<li>
+							<a href="/user.php?name={{ userdata.name }}">{{ userdata.title }}</a>
+						</li>
+						<li>
+							<a href="/upload_start.php">{{ __("Upload") }}</a>
+						</li>
+						<li>
+							<a href="/logout.php">{{ __("Log out") }}</a>
+						</li>
+						{% else %}
+						<li>
+							<a href="../login.php">{{ __("Sign in") }}</a>
+						</li>
+						<li>
+							<a href="../register.php">{{ __("Register") }}</a>
+						</li>
+						{% endif %}
+		</div>
+		</nav>
+	</div>
+	{% else %}
+	<div id="masthead-container">
+		<div id="masthead">
+			<a href="/" id="logo-container"><img id="logo" src="/assets/logo-masthead.png"></a>
+			<div id="{% if log %}masthead-loggedin{% else %}masthead-signin{% endif %}" class="masthead-user">
+				{% if log %}
+				<div style="display: flex;justify-content: center;align-items: center;gap: 5px;">
+				{{ userdata.title }}
+               <div {% if notification_count > 0 %}class="bg-danger text-light"{% else %}class="bg-neutral{% endif %}" style="padding:6px 8px;display: inline-block;">{{ notification_count }}</div>
+				<img class="rounded" style="width:32px;margin-top: -2px;" src="{{ profile_image(userdata.name) }}"  alt="{{ userdata.title }}">
+				</div>
+				{% else %}
+				<div style="display: flex;justify-content: center;align-items: center;gap: 5px;margin-top: 2px;">
+					<a href="../login.php">{{ __("Sign in") }}</a>
+					<a href="../register.php">{{ __("Register") }}</a>
+				</div>
+				{% endif %}
+			</div>
+			<div id="masthead-content">
+				<div id="masthead-upload-button-group" style="display: flex;justify-content: center;align-items: center;gap: 5px;margin-top: 5px;">
+					<a href="/browse.php">{{ __("Browse") }}</a>
+					<a href="/upload_start.php">{{ __("Upload") }}</a>
+				</div>
+				<form id="masthead-search" action="/results.php">
+					<button id="search-btn" class="button button-secondary">
+					<span>{{ icon('search', 14) }}</span>
+					</button>
+					<div id="masthead-search-terms">
+						<label><input type="text" placeholder="{{ __("Search...") }}"></label>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div id="masthead-below">
+		<div class="grid">
+			<div class="col-md-8">
+			Todo: add something.
+			</div>
+			<div class="col-md-1">
+			<h4 style="margin:10px 0">cheeseRox</h4>
+			<ul style="padding:0">
+			</ul>
+			</div>
+			<div class="col-md-1">
+			<h4 style="margin:10px 0">Account</h4>
+			<ul style="padding:0">
+			<li><a href="user.php?name={{ userdata.name }}">{{ __("Profile") }}</a></li>
+			<li><a href="/studio/">{{ __("Studio") }}</a></li>
+			<li><a href="/settings.php">{{ __("Settings") }}</a></li>
+			</ul>
+			</div>
+			<div class="col-md-2">
+			<ul style="padding:0">
+			<div class="grid">
+			<div class="col-md-2">
+			<img class="rounded img-fluid" src="{{ profile_image(userdata.name) }}" alt="{{ userdata.name }}">
+			</div>
+			<div class="col-md-10">
+			<h4 style="margin:0">{{ userdata.name }}</h4>
+			</div>
+			</div>
+			<li><a href="logout.php">{{ __("Log out") }}</a></li>
+			</ul>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+	{% block precontent %}{% endblock %}
+				<div class="container" style="max-width: 970px;">
+					{% block content %}{% endblock %}
+					</div>
+	<footer class="container">
+		<div class="footer">
+			<h3>cheeseRox</h3>
+			<p><b>{{ __("By the cheeseRox contributors") }}</b> · 2020-{{ 'now' | date('Y') }} | <b>{{ __("Users registered") }}</b>: {{ stats.usercount }} | <b>{{ __("Videos uploaded") }}</b>: {{ stats.videocount }}</p>
+			<h5>{{ __("Git Commit") }} {{ git_commit() }}<br></h5>
+			<a id="dark" href="#" {% if theme == 'dark' %}hidden{% endif %}>{{ __("Enable dark mode") }}</a><a id="light" href="#" {% if theme == 'default' %}hidden{% endif %}>{{ __("Disable dark mode") }}</a>
+		</div>
+	</footer>
+{% block custom_footer %}
+{% endblock %}
+</body>
+</html>

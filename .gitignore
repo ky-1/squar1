@@ -1,0 +1,36 @@
+## User-generated files
+conf/config.php
+templates/cache/
+cache/
+assets/profpic/
+assets/thumb/*.png
+assets/backgrounds/
+*.mp4
+videos/
+music/*.mp3
+music/*.wav
+
+## Composer
+vendor/
+composer.lock
+bootstrap/css/bootstrap.css
+bootstrap/css/bootstrap-theme.css
+
+## pre-cached stylesheets
+assets/bs*.css
+assets/bs*.css.map
+assets/css/*.css
+assets/dashboard.css
+assets/signin.css
+
+## Admin features
+adminer-*.php
+
+## misc shit
+downloads/
+wiki/
+*.sfk
+assets/_style_forums.css
+assets/darkmode.css
+assets/style.css
+.vscode/
